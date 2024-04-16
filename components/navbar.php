@@ -15,7 +15,7 @@
         <a class="nav-link" href="#">Preços</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="?pg=produto">Produto</a>
+        <a class="nav-link" href="?pg=produtos">Produto</a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#">Desativado</a>

@@ -16,7 +16,6 @@ if (
 ) {
 	$produtoController = new ProdutoController();
 
-
 	echo "Nome: " . $_POST["nome"] . "<br>";
 	echo "Descrição: " . $_POST["descricao"] . "<br>";
 	echo "ID da Categoria: " . $_POST["id_categoria"] . "<br>";
@@ -35,7 +34,7 @@ if (
 	}
 
 	// Voltando pra tela anterior
-	header("Location: ?pg=produto");
+	header("Location: ?pg=produtos");
 
 	// Encerra a execução do script php
 	exit();

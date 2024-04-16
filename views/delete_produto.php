@@ -6,5 +6,5 @@ if (isset($_GET["id"])) {
     $produtoController->delete($_GET["id"]);
 
     // Voltando pra tela anterior
-    header("Location: ?pg=produto");
+    header("Location: ?pg=produtos");
 }
