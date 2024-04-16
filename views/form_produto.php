@@ -1,6 +1,7 @@
 <?php
 // include_once("restrict.php");
 require_once "controllers/ProdutoController.php";
+require_once "controllers/CategoriaController.php";
 // Inicia a sessão
 if (isset($_GET["id"])) {
 	$produtoController = new ProdutoController();
@@ -45,9 +46,21 @@ if (
 			<input type="text" class="form-control" id="nome" name="nome" value="<?php echo isset($produto) ? $produto->getNome() : ''; ?>">
             <label for="descricao">Descrição</label>
 			<input type="text" class="form-control" id="descricao" name="descricao" value="<?php echo isset($produto) ? $produto->getDescricao() : ''; ?>">
-            <label for="categoria">Categoria</label>
-			<input type="text" class="form-control" id="categoria" name="categoria" value="<?php echo isset($produto) ? $produto->getCategoria() : ''; ?>">
-            <label for="preco">Preço</label>
+            
+			<label for="categoria">Categoria</label>
+			<select class="form-control" id="categoria" name="categoria">
+				<?php
+				$categoriaController = new $categoriaController();
+				$categorias = $categoriaController->findAll();
+
+				foreach($categorias as $categoria):
+					$selected = (isset($produto) && $produto->getCategoria()->getId() == $categoria->getId()) ? "selected" : "";
+					echo "<option value=" .$categoria.getId().">".$categoria->getNome()."</option>";
+				endforeach;
+				?>
+			</select>
+            
+			<label for="preco">Preço</label>
 			<input type="text" class="form-control" id="preco" name="preco" value="<?php echo isset($produto) ? $produto->getPreco() : ''; ?>">
 		</div>
 		<input type="submit" class="btn btn-primary" id="salvar" name="salvar" value="Salvar">
