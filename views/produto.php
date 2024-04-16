@@ -36,7 +36,7 @@ if (isset($_SESSION['mensagem'])) {
                             <td><?php echo htmlspecialchars($produto->getId()); ?></td>
                             <td><?php echo htmlspecialchars($produto->getNome()); ?></td>
                             <td><?php echo htmlspecialchars($produto->getDescricao()); ?></td>
-                            <td><?php echo htmlspecialchars($produto->getCategoria()); ?></td>
+                            <td><?php echo htmlspecialchars($produto->getCategoria()->getNome()); ?></td>
                             <td><?php echo htmlspecialchars($produto->getPreco()); ?></td>
                             <td>
                                 <a class="" href="?pg=form_produto&id=<?php echo $produto->getId(); ?>">
