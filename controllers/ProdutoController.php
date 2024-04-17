@@ -21,18 +21,18 @@ class ProdutoController {
             $conexao = Conexao::getInstance();
             $nome = $produto->getNome();
             $descricao = $produto->getDescricao();
-            $categoria = $produto->getCategoria();
+            $categoria = $produto->getCategoria()->getId(); 
             $preco = $produto->getPreco();
             $stmt = $conexao->prepare("INSERT INTO produto (nome, descricao, id_categoria, preco) VALUES (:nome, :descricao, :categoria, :preco)");
             $stmt->bindParam(":nome", $nome);
             $stmt->bindParam(":descricao", $descricao);
-            $stmt->bindParam(":categoria", $categoria->getId());
+            $stmt->bindParam(":categoria", $categoria); 
             $stmt->bindParam(":preco", $preco);
-
+    
             $stmt->execute();
-
+    
             $produto = $this->findById($conexao->lastInsertId());
-
+    
             return $produto;
         }catch (PDOException $e){
             echo "Erro ao salvar o produto: " . $e->getMessage();
@@ -41,24 +41,23 @@ class ProdutoController {
 
     public function update(Produto $produto){
         try{
-
             $conexao = Conexao::getInstance();
             $nome = $produto->getNome();
             $descricao = $produto->getDescricao();
-            $categoria = $produto->getCategoria();
+            $categoria = $produto->getCategoria()->getId();
             $preco = $produto->getPreco();
             $id = $produto->getId();
-            $stmt = $conexao->prepare("UPDATE produto SET nome = :nome, descricao =:descricao, preco =:preco, id_categoria =:categoria  WHERE id = :id");
+            $stmt = $conexao->prepare("UPDATE produto SET nome = :nome, descricao = :descricao, preco = :preco, id_categoria = :categoria  WHERE id = :id");
             $stmt->bindParam(":nome", $nome);
             $stmt->bindParam(":descricao", $descricao);
-            $stmt->bindParam(":categoria", $categoria->getId());
+            $stmt->bindParam(":categoria", $categoria); 
             $stmt->bindParam(":preco", $preco);
             $stmt->bindParam(":id", $id);
-            
+    
             $stmt->execute();
-            
+    
             $produto = $this->findById($conexao->lastInsertId());
-            
+    
             return $produto;
         }catch (PDOException $e){
             echo "Erro ao atualizar a produto: " . $e->getMessage();

@@ -16,13 +16,25 @@ if (
 ) {
 	$produtoController = new ProdutoController();
 
-	echo "Nome: " . $_POST["nome"] . "<br>";
-	echo "Descrição: " . $_POST["descricao"] . "<br>";
-	echo "ID da Categoria: " . $_POST["id_categoria"] . "<br>";
-	echo "Preço: " . $_POST["preco"] . "<br>";
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		echo "Dados do formulário foram enviados:<br>";
+		echo "Nome: " . $_POST["nome"] . "<br>";
+		echo "Descrição: " . $_POST["descricao"] . "<br>";
+		echo "ID da Categoria: " . $_POST["id_categoria"] . "<br>";
+		echo "Preço: " . $_POST["preco"] . "<br>";
+	}
+	
+	$categoriaId = $_POST["id_categoria"];
 
-	// Construindo o Produto
-	$produto = new Produto(null, $_POST["nome"], $_POST["descricao"], $_POST["id_categoria"], $_POST["preco"]);
+	$categoriaController = new CategoriaController();
+	$categoria = $categoriaController->findById($categoriaId);
+
+	if ($categoria) {
+		// Construindo o Produto
+		$produto = new Produto(null, $_POST["nome"], $_POST["descricao"], $categoria, $_POST["preco"]);
+	} else {
+		echo "Categoria não encontrada.";
+	}
 
 	// Salvando ou Atualizando Produto
 	if (isset($_GET["id"])) {
@@ -52,14 +64,13 @@ if (
             <label for="descricao">Descrição</label>
 			<input type="text" class="form-control" id="descricao" name="descricao" value="<?php echo isset($produto) ? $produto->getDescricao() : ''; ?>">
 			<label for="categoria">Categoria</label>
-			<select class="form-control" id="categoria" name="categoria">
+			<select class="form-control" id="categoria" name="id_categoria">
 				<?php
 				$categoriaController = new CategoriaController();
 				$categorias = $categoriaController->findAll();
 
 				foreach($categorias as $categoria):
-					//$selected = (isset($produto) && $produto->getCategoria()->getId() == $categoria->getId()) ? "selected" : "";
-					$selected = (isset($produto) && $produto->getCategoria() && $produto->getCategoria()->getId() == $categoria->getId()) ? "selected" : "";
+					$selected = (isset($produto) && $produto->getCategoria()->getId() == $categoria->getId()) ? "selected" : "";
 
 					echo "<option value=" . $categoria->getId() . ">" . $categoria->getNome() . "</option>";
 				endforeach;
