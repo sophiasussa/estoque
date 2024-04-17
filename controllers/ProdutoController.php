@@ -1,5 +1,6 @@
 <?php
 require_once "models/Produto.php";
+require_once "controllers/CategoriaController.php";
 class ProdutoController {
 
     public function findAll(){
@@ -10,8 +11,9 @@ class ProdutoController {
         $stmt->execute();
         $produtos = array();
 
+        $categoriaController = new CategoriaController();
         while($produto = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $produtos[] = new Produto($produto["id"], $produto["nome"], $produto["descricao"], $produto["id_categoria"], $produto["preco"]);
+            $produtos[] = new Produto($produto["id"], $produto["nome"], $produto["descricao"], $categoriaController->findById($produto["id_categoria"]), $produto["preco"]);
         }
         return $produtos;
     }

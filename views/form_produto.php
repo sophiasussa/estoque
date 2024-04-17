@@ -15,14 +15,6 @@ if (
     isset($_POST["preco"])
 ) {
 	$produtoController = new ProdutoController();
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		echo "Dados do formulário foram enviados:<br>";
-		echo "Nome: " . $_POST["nome"] . "<br>";
-		echo "Descrição: " . $_POST["descricao"] . "<br>";
-		echo "ID da Categoria: " . $_POST["id_categoria"] . "<br>";
-		echo "Preço: " . $_POST["preco"] . "<br>";
-	}
 	
 	$categoriaId = $_POST["id_categoria"];
 
