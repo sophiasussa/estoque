@@ -5,10 +5,9 @@ require_once "models/Categoria.php";
 $controller = new CategoriaController();
 $categorias = $controller->findAll();
 
-// Verificar se existe uma mensagem definida na sessão
 if (isset($_SESSION['mensagem'])) {
     echo "<script>alert('" . $_SESSION['mensagem'] . "')</script>";
-    unset($_SESSION['mensagem']); // Limpar a variável de sessão após exibir o alerta
+    unset($_SESSION['mensagem']);
 }
 ?>
 

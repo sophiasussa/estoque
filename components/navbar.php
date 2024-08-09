@@ -6,19 +6,16 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#""hom""e">Home <span class="sr-only">(Página atual)</span></a>
+        <a class="nav-link" href="#home">Home <span class="sr-only">(Página atual)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="?pg=categorias">Categorias</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Preços</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="?pg=produtos">Produto</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Desativado</a>
+        <a class="nav-link" href="?pg=estoques">Estoque</a>
       </li>
     </ul>
   </div>

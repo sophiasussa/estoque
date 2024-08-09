@@ -1,4 +1,7 @@
 <?php
+require_once "models/Estoque.php";
+require_once "controllers/ProdutoController.php";
+
 class EstoqueController{
 
     public function findById($id){
@@ -12,6 +15,12 @@ class EstoqueController{
             
             $produtoController = new ProdutoController();
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($resultado === false) {
+                return null;
+            }
+
+        
             $estoque = new Estoque($resultado["id"], $produtoController->findById($resultado["id_produto"]), $resultado["quantidade"]);
             
             return $estoque;
@@ -19,6 +28,22 @@ class EstoqueController{
             echo "Erro ao buscar o estoque: " . $e->getMessage();
         }
     }
+
+    public function save(Estoque $estoque) {
+        try {
+            $conexao = Conexao::getInstance();
+            $stmt = $conexao->prepare("INSERT INTO estoque (id_produto, quantidade) VALUES (:id_produto, :quantidade)");
+            $stmt->bindParam(":id_produto", $estoque->getProduto()->getId());
+            $stmt->bindParam(":quantidade", $estoque->getQuantidade());
+
+            $stmt->execute();
+
+            $_SESSION['mensagem'] = 'Estoque adicionado com sucesso!';
+        } catch(PDOException $e) {
+            echo 'Erro ao adicionar estoque: ' . $e->getMessage();
+        }
+    }
+    
 
     public function addEstoque($id, $quantidade){
         try{
@@ -31,7 +56,7 @@ class EstoqueController{
 
             echo '<script type="text/javascript">
                     window location = "?pgestoques";
-                    </script>'
+                    </script>';
         }catch(PDOException $e){
             echo 'Erro ao adicionar estoque' . $e->getMessage();
         }
@@ -54,7 +79,7 @@ class EstoqueController{
 
             echo '<script type="text/javascript">
                     window location = "?pgestoques";
-                    </script>'
+                    </script>';
         }catch(PDOException $e){
             echo 'Erro ao adicionar estoque' . $e->getMessage();
         }

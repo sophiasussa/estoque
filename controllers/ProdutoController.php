@@ -98,7 +98,7 @@ class ProdutoController {
             
             $stmt->execute();
 
-            $categoriaController = new CategoriaController();            
+            $categoriaController = new CategoriaController();
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
             $produto = new Produto($resultado["id"], $resultado["nome"], $resultado["descricao"], $categoriaController->findById($resultado["id_categoria"]), $resultado["preco"]);
             

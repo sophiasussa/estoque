@@ -1,8 +1,7 @@
 <?php
-// include_once("restrict.php");
 require_once "controllers/ProdutoController.php";
 require_once "controllers/CategoriaController.php";
-// Inicia a sessão
+
 if (isset($_GET["id"])) {
 	$produtoController = new ProdutoController();
 	$produto = $produtoController->findById($_GET["id"]);
@@ -22,13 +21,11 @@ if (
 	$categoria = $categoriaController->findById($categoriaId);
 
 	if ($categoria) {
-		// Construindo o Produto
 		$produto = new Produto(null, $_POST["nome"], $_POST["descricao"], $categoria, $_POST["preco"]);
 	} else {
 		echo "Categoria não encontrada.";
 	}
 
-	// Salvando ou Atualizando Produto
 	if (isset($_GET["id"])) {
 		$produto->setId($_GET["id"]);
 		$produtoController->update($produto);
@@ -37,10 +34,8 @@ if (
 		$produtoController->save($produto);
 	}
 
-	// Voltando pra tela anterior
 	header("Location: ?pg=produtos");
 
-	// Encerra a execução do script php
 	exit();
 }
 
@@ -67,7 +62,7 @@ if (
 					echo "<option value=" . $categoria->getId() . ">" . $categoria->getNome() . "</option>";
 				endforeach;
 				?>
-			</select>          
+			</select>
 			<label for="preco">Preço</label>
 			<input type="text" class="form-control" id="preco" name="preco" value="<?php echo isset($produto) ? $produto->getPreco() : ''; ?>">
 		</div>

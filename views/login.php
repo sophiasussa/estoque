@@ -1,7 +1,6 @@
 <?php
 require_once "../controllers/UsuarioController.php";
 
-// Inicia a sessão
 session_start();
 
 if (isset($_POST["login"]) && isset($_POST["senha"])) {
@@ -19,9 +18,9 @@ if (isset($_POST["login"]) && isset($_POST["senha"])) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Formulário de Login</title>
-	<!-- Área para os Scripts CSS -->
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<!-- Título da Página -->
+
 
 	<style>
 		body {
@@ -32,7 +31,6 @@ if (isset($_POST["login"]) && isset($_POST["senha"])) {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			/* background-color: rgba(0, 0, 0, 0.8); */
 		}
 
 		.card {

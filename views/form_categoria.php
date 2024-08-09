@@ -1,7 +1,5 @@
 <?php
-// include_once("restrict.php");
 require_once "controllers/CategoriaController.php";
-// Inicia a sessão
 if (isset($_GET["id"])) {
 	$categoriaController = new CategoriaController();
 	$categoria = $categoriaController->findById($_GET["id"]);
@@ -12,10 +10,8 @@ if (
 ) {
 	$categoriaController = new CategoriaController();
 
-	// Construindo o Categoria
 	$categoria = new Categoria(null, $_POST["nome"]);
 
-	// Salvando ou Atualizando Categoria
 	if (isset($_GET["id"])) {
 		$categoria->setId($_GET["id"]);
 		$categoriaController->update($categoria);
@@ -24,10 +20,8 @@ if (
 		$categoriaController->save($categoria);
 	}
 
-	// Voltando pra tela anterior
 	header("Location: ?pg=categorias");
 
-	// Encerra a execução do script php
 	exit();
 }
 
