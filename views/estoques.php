@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </thead>
         <tbody>
             <?php foreach ($produtos as $produto) : ?>
-                <?php 
-                    $estoque = $estoqueController->findById($produto->getId());
-                    $quantidadeEstoque = $estoque ? $estoque->getQuantidade() : 0;
+                <?php
+                    $estoque = $estoqueController->findByProdutoId($produto->getId());
+                    $quantidadeEstoque = $estoque != null ? $estoque->getQuantidade() : 0;
                 ?>
                 <tr>
                     <td><?php echo htmlspecialchars($produto->getId()); ?></td>

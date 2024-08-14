@@ -29,34 +29,60 @@ class EstoqueController{
         }
     }
 
-    public function save(Estoque $estoque) {
-        try {
+    public function findByProdutoId($id){
+        try{
             $conexao = Conexao::getInstance();
-            $stmt = $conexao->prepare("INSERT INTO estoque (id_produto, quantidade) VALUES (:id_produto, :quantidade)");
-            $stmt->bindParam(":id_produto", $estoque->getProduto()->getId());
-            $stmt->bindParam(":quantidade", $estoque->getQuantidade());
-
+            
+            $stmt = $conexao->prepare("SELECT * FROM estoque WHERE id_produto = :id");
+            $stmt->bindParam(":id", $id);
+            
             $stmt->execute();
+            
+            $produtoController = new ProdutoController();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $_SESSION['mensagem'] = 'Estoque adicionado com sucesso!';
-        } catch(PDOException $e) {
-            echo 'Erro ao adicionar estoque: ' . $e->getMessage();
+            if ($resultado === false) {
+                return null;
+            }else{
+                $estoque = new Estoque($resultado["id"], $produtoController->findById($resultado["id_produto"]), $resultado["quantidade"]);
+                return $estoque;
+            }
+        }catch (PDOException $e){
+            echo "Erro ao buscar o estoque: " . $e->getMessage();
         }
     }
-    
 
     public function addEstoque($id, $quantidade){
         try{
-            $conexao = Conexao::getInstance();
-            $stmt = $conexao->prepare("UPDATE estoque SET quantidade = quantidade + :quantidade WHERE id = :id");
-            $stmt->bindParam(":id", $id);
-            $stmt->bindParam(":quantidade", $quantidade);
+          
+            $estoque =$this->findByProdutoId($id);
+            
+            if($estoque == null){
+                $conexao = Conexao::getInstance();
+                $stmt = $conexao->prepare("INSERT INTO estoque (id_produto, quantidade) VALUES (:id, :quantidade)");
+                $stmt->bindParam(":id",  $id);
+                $stmt->bindParam(":quantidade", $quantidade);
+    
+                $stmt->execute();
+    
+                $_SESSION['mensagem'] = 'Estoque adicionado com sucesso!';
 
-            $stmt->execute();
+                echo '<script type="text/javascript">
+                window location = "?pg=estoques";
+                </script>';
+            }else{
 
-            echo '<script type="text/javascript">
-                    window location = "?pgestoques";
-                    </script>';
+                $conexao = Conexao::getInstance();
+                $stmt = $conexao->prepare("UPDATE estoque SET quantidade = quantidade + :quantidade WHERE id_produto = :id");
+                $stmt->bindParam(":id", $id);
+                $stmt->bindParam(":quantidade", $quantidade);
+
+                $stmt->execute();
+
+                echo '<script type="text/javascript">
+                        window location = "?pg=estoques";
+                        </script>';
+            }
         }catch(PDOException $e){
             echo 'Erro ao adicionar estoque' . $e->getMessage();
         }
@@ -65,20 +91,21 @@ class EstoqueController{
     public function removeEstoque($id, $quantidade){
         try{
             $conexao = Conexao::getInstance();
-            $estoque = findbyId($id);
+            $estoque = $this->findByProdutoId($id);
+           
             if($estoque->getQuantidade() < $quantidade){
-                echo 'Quantidade indisponível em estoque' . $e->getMessage();
+                echo 'Quantidade indisponível em estoque';
                 return;
             }
 
-            $stmt = $conexao->prepare("UPDATE estoque SET quantidade = quantidade - :quantidade WHERE id = :id");
+            $stmt = $conexao->prepare("UPDATE estoque SET quantidade = quantidade - :quantidade WHERE id_produto = :id");
             $stmt->bindParam(":id", $id);
             $stmt->bindParam(":quantidade", $quantidade);
 
             $stmt->execute();
 
             echo '<script type="text/javascript">
-                    window location = "?pgestoques";
+                    window location = "?pg=estoques";
                     </script>';
         }catch(PDOException $e){
             echo 'Erro ao adicionar estoque' . $e->getMessage();

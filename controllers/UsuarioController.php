@@ -1,6 +1,6 @@
 <?php
-require_once "../models/Conexao.php";
-require_once "../models/Usuario.php";
+require_once "models/Conexao.php";
+require_once "models/Usuario.php";
 
 class UsuarioController {
     public function login($login, $senha)
