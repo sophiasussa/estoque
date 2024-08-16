@@ -1,6 +1,6 @@
 <?php
-require_once "../models/Categoria.php";
-require_once "../models/Conexao.php";
+require_once "models/Categoria.php";
+require_once "models/Conexao.php";
 
 class CategoriaController {
 

@@ -5,8 +5,8 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 
-require_once "../controllers/CategoriaController.php";
-require_once "../models/Categoria.php";
+require_once "controllers/CategoriaController.php";
+require_once "models/Categoria.php";
 
 $controller = new CategoriaController();
 $categorias = $controller->findAll();

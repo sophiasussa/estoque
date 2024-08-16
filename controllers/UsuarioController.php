@@ -41,7 +41,7 @@ class UsuarioController {
 
     public function logout() {
         session_destroy();
-        header("Location: login.php");
+        header("Location: ?pg=login");
         exit();
     }
 }
