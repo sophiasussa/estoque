@@ -7,7 +7,7 @@ class UsuarioController {
     {
         try {
             $conexao = Conexao::getInstance();
-            $stmt = $conexao->prepare("SELECT * 
+            $stmt = $conexao->prepare("SELECT *
             FROM usuario WHERE login = :login");
             $stmt->bindParam(":login", $login);
             $stmt->execute();
@@ -15,16 +15,17 @@ class UsuarioController {
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($resultado) {
                 $usuario = new Usuario(
-                    $resultado["id"], 
-                    $resultado["nome"], 
-                    $resultado["login"], 
+                    $resultado["id"],
+                    $resultado["nome"],
+                    $resultado["login"],
                     $resultado["senha"]
             );
                 if ($senha===$usuario->getSenha()) {
                     $_SESSION['id_usuario'] = $usuario->getId();
                     $_SESSION['nome_usuario'] = $usuario->getNome();
                     $_SESSION['login_usuario'] = $usuario->getLogin();
-                    header("Location: ../index.php");
+                    
+                    header("Location: ?pg=categorias");
                 } else {
                     $_SESSION['mensagem'] = 'Senha incorreta';
                     return false;
@@ -36,5 +37,11 @@ class UsuarioController {
         } catch (PDOException $e) {
             echo "Erro ao buscar a usuario: " . $e->getMessage();
         }
+    }
+
+    public function logout() {
+        session_destroy();
+        header("Location: login.php");
+        exit();
     }
 }
