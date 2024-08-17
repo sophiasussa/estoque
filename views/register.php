@@ -1,12 +1,12 @@
 <?php
 require_once "../controllers/UsuarioController.php";
 
-if (isset($_POST["login"]) && isset($_POST["senha"])) {
-	$usuarioController = new UsuarioController();
-	$usuarioController->login($_POST["login"], $_POST["senha"]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST["login"]) && isset($_POST["nome"]) && isset($_POST["senha"])) {
+        $usuarioController = new UsuarioController();
+        $usuarioController->cadastrar($_POST["login"], $_POST["nome"], $_POST["senha"]);
+    }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ if (isset($_POST["login"]) && isset($_POST["senha"])) {
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Formulário de Login</title>
+	<title>Formulário de Cadastro de Usuário</title>
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -51,13 +51,18 @@ if (isset($_POST["login"]) && isset($_POST["senha"])) {
 
 		<div class="card rounded">
 			<div class="card-body">
-				<form method="POST">
+                <form method="POST"action="register.php">
 					<div class="form-group">
-						<h1 class="text-center custom-heading">Estoque</h1>
+						<h1 class="text-center custom-heading">Cadastrar</h1>
 					</div>
 					<div class="form-group">
 						<label for="login">Login:</label>
 						<input type="text" class="form-control" id="login" name="login" placeholder="Digite seu login" required>
+					</div>
+
+                    <div class="form-group">
+						<label for="nome">Nome Pessoal</label>
+						<input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
 					</div>
 					
 					<div class="form-group">
@@ -75,8 +80,7 @@ if (isset($_POST["login"]) && isset($_POST["senha"])) {
 							?>
 						</div>
 					<?php } ?>
-					<button type="submit" class="btn btn-primary btn-block">Login</button>
-					<button type="button" class="btn btn-link btn-block" onclick="window.location.href='register.php'">Cadastrar-se</button>
+					<button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
 				</form>
 			</div>
 		</div>

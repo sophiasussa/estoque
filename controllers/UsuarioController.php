@@ -1,6 +1,6 @@
 <?php
-require_once "models/Conexao.php";
-require_once "models/Usuario.php";
+require_once "../models/Conexao.php";
+require_once "../models/Usuario.php";
 
 class UsuarioController {
     public function login($login, $senha)
@@ -21,11 +21,10 @@ class UsuarioController {
                     $resultado["senha"]
             );
                 if ($senha===$usuario->getSenha()) {
+                    unset($_SESSION['id_usuario']);
                     $_SESSION['id_usuario'] = $usuario->getId();
-                    $_SESSION['nome_usuario'] = $usuario->getNome();
-                    $_SESSION['login_usuario'] = $usuario->getLogin();
                     
-                    header("Location: ?pg=categorias");
+                    header("Location: ../index.php");
                 } else {
                     $_SESSION['mensagem'] = 'Senha incorreta';
                     return false;
@@ -39,9 +38,28 @@ class UsuarioController {
         }
     }
 
+    public function cadastrar($login, $nome, $senha)
+    {
+        try {
+            $conexao = Conexao::getInstance();
+            $stmt = $conexao->prepare("INSERT INTO usuario (nome, login, senha) VALUES (:nome, :login, :senha)");
+            $stmt->bindParam(":nome", $nome);
+            $stmt->bindParam(":login", $login);
+            $stmt->bindParam(":senha", $senha);
+
+            $stmt->execute();
+            header("Location: ../index.php");
+            exit();
+    
+        } catch (PDOException $e) {
+            echo"Erro ao cadastrar o usuário: " . $e->getMessage();
+        }
+    }
+
     public function logout() {
+        unset($_SESSION["id_usuario"]);
         session_destroy();
-        header("Location: ?pg=login");
+        header("Location: views/login.php");
         exit();
     }
 }
