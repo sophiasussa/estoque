@@ -1,6 +1,6 @@
 <?php
-require_once "../models/Conexao.php";
-require_once "../models/Usuario.php";
+require_once "models/Conexao.php";
+require_once "models/Usuario.php";
 
 class UsuarioController {
     public function login($login, $senha)
@@ -72,5 +72,28 @@ class UsuarioController {
         session_destroy();
         header("Location: views/login.php");
         exit();
+    }
+
+    public function findById($id) {
+        try {
+            $conexao = Conexao::getInstance();
+            $stmt = $conexao->prepare("SELECT * FROM usuario WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($resultado) {
+                return new Usuario(
+                    $resultado["id"],
+                    $resultado["nome"],
+                    $resultado["login"],
+                    $resultado["senha"]
+                );
+            } else {
+                return null;
+            }
+        } catch (PDOException $e) {
+            echo "Erro ao buscar o usuário: " . $e->getMessage();
+            return null;
+        }
     }
 }

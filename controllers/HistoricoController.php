@@ -1,5 +1,5 @@
 <?php
-require_once "../models/Conexao.php";
+require_once "models/Conexao.php";
 
 class HistoricoController
 {

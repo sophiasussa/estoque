@@ -21,6 +21,9 @@
         <a class="nav-link" href="?pg=estoques">Estoque</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="?pg=historico">Historico</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="?pg=logout">
           <i class="fas fa-sign-out-alt"></i> Logout
         </a>
