@@ -42,6 +42,17 @@ class UsuarioController {
     {
         try {
             $conexao = Conexao::getInstance();
+            $stmt = $conexao->prepare("SELECT COUNT(*) FROM usuario WHERE login = :login");
+            $stmt->bindParam(":login", $login);
+            $stmt->execute();
+    
+            $count = $stmt->fetchColumn();
+            
+            if ($count > 0) {
+                $_SESSION['mensagem'] = 'Login já está em uso.';
+                return false;
+            }
+    
             $stmt = $conexao->prepare("INSERT INTO usuario (nome, login, senha) VALUES (:nome, :login, :senha)");
             $stmt->bindParam(":nome", $nome);
             $stmt->bindParam(":login", $login);
