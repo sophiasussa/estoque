@@ -52,9 +52,18 @@ class EstoqueController{
         }
     }
 
+    private function getAcaoId($nomeAcao) {
+        $conexao = Conexao::getInstance();
+        $stmt = $conexao->prepare("SELECT id FROM acao WHERE nome = :nome");
+        $stmt->bindParam(":nome", $nomeAcao);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado ? $resultado['id'] : null;
+    }
+
     public function addEstoque($id, $quantidade){
         try{
-          
+        
             $estoque =$this->findByProdutoId($id);
             
             if($estoque == null){
@@ -67,6 +76,11 @@ class EstoqueController{
     
                 $_SESSION['mensagem'] = 'Estoque adicionado com sucesso!';
 
+                $acaoId = $this->getAcaoId('Adição');
+                $usuarioId = $_SESSION['id_usuario'];
+                $historicoController = new HistoricoController();
+                $historicoController->registrarHistorico($id, $quantidade, $usuarioId, $acaoId);
+
                 echo '<script type="text/javascript">
                 window location = "?pg=estoques";
                 </script>';
@@ -78,6 +92,11 @@ class EstoqueController{
                 $stmt->bindParam(":quantidade", $quantidade);
 
                 $stmt->execute();
+
+                $acaoId = $this->getAcaoId('Adição');
+                $usuarioId = $_SESSION['id_usuario'];
+                $historicoController = new HistoricoController();
+                $historicoController->registrarHistorico($id, $quantidade, $usuarioId, $acaoId);
 
                 echo '<script type="text/javascript">
                         window location = "?pg=estoques";
@@ -92,7 +111,7 @@ class EstoqueController{
         try{
             $conexao = Conexao::getInstance();
             $estoque = $this->findByProdutoId($id);
-           
+        
             if($estoque->getQuantidade() < $quantidade){
                 echo 'Quantidade indisponível em estoque';
                 return;
@@ -103,6 +122,11 @@ class EstoqueController{
             $stmt->bindParam(":quantidade", $quantidade);
 
             $stmt->execute();
+
+            $acaoId = $this->getAcaoId('Remoção');
+            $usuarioId = $_SESSION['id_usuario'];
+            $historicoController = new HistoricoController();
+            $historicoController->registrarHistorico($id, $quantidade, $usuarioId, $acaoId);
 
             echo '<script type="text/javascript">
                     window location = "?pg=estoques";
