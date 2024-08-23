@@ -1,4 +1,5 @@
 <?php
+require_once "security/restrict.php";
 require_once "controllers/HistoricoController.php";
 require_once "controllers/UsuarioController.php";
 require_once "controllers/AcaoController.php";
@@ -8,17 +9,7 @@ $historicoController = new HistoricoController();
 $usuarioController = new UsuarioController();
 $acaoController = new AcaoController();
 
-$historicoList = $historicoController->getAllHistorico();
-
-function getNomeUsuario($usuarioController, $id) {
-    $usuario = $usuarioController->findById($id);
-    return $usuario ? $usuario->getNome() : 'Desconhecido';
-}
-
-function getNomeAcao($acaoController, $id) {
-    $acao = $acaoController->findById($id);
-    return $acao ? $acao->getNome() : 'Desconhecida';
-}
+$historicoList = $historicoController->obterHistorico();
 ?>
 
 <!DOCTYPE html>
@@ -69,10 +60,10 @@ function getNomeAcao($acaoController, $id) {
             <tbody>
                 <?php foreach ($historicoList as $registro) : ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($registro['data']); ?></td>
-                        <td><?php echo htmlspecialchars($registro['qtd']); ?></td>
-                        <td><?php echo htmlspecialchars(getNomeUsuario($usuarioController, $registro['id_usuario'])); ?></td>
-                        <td><?php echo htmlspecialchars(getNomeAcao($acaoController, $registro['id_acao'])); ?></td>
+                    <td><?php echo htmlspecialchars($registro['data']); ?></td>
+                    <td><?php echo htmlspecialchars($registro['qtd']); ?></td>
+                    <td><?php echo htmlspecialchars($registro['usuario']); ?></td>
+                    <td><?php echo htmlspecialchars($registro['acao']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

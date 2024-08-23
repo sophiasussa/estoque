@@ -1,6 +1,7 @@
 <?php
 require_once "models/Estoque.php";
 require_once "controllers/ProdutoController.php";
+require_once "controllers/HistoricoController.php";
 
 class EstoqueController{
 

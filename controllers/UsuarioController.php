@@ -1,6 +1,6 @@
 <?php
-require_once "models/Conexao.php";
-require_once "models/Usuario.php";
+require_once dirname(__DIR__) . "/models/Conexao.php";
+require_once dirname(__DIR__) . "/models/Usuario.php";
 
 class UsuarioController {
     public function login($login, $senha)

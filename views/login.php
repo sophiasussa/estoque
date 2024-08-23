@@ -1,5 +1,7 @@
 <?php
-require_once "../controllers/UsuarioController.php";
+require_once "security/restrict.php";
+
+require_once dirname(__DIR__) . "/controllers/UsuarioController.php";
 
 if (isset($_POST["login"]) && isset($_POST["senha"])) {
 	$usuarioController = new UsuarioController();

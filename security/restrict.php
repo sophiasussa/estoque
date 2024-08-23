@@ -1,7 +1,6 @@
 <?php
-
     if(session_status() === PHP_SESSION_NONE){
-        SESSION_START();
+        session_start();
     }
 
     if (!isset($_SESSION['id_usuario'])) {
